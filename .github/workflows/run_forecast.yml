@@ -24,7 +24,7 @@ jobs:
       FIREBASE_PATH: /AirQuality/Log
       FIREBASE_PATH_CANDIDATES: /AirQuality/Log,/air_quality_readings,/AirQuality,/
       USE_LOCAL_FALLBACK: "true"
-      LOCAL_FALLBACK_PATH: data/openmeteo_bangkok_hourly_2023_2026.csv
+      LOCAL_FALLBACK_PATH: data/iot_2023.csv
       MERGE_LOCAL_WITH_FIREBASE: "true"
       MODELS_DIR: models
       PUSH_FORECAST_TO_FIREBASE: "true"
