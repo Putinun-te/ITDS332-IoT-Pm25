@@ -18,6 +18,7 @@ jobs:
     timeout-minutes: 45
     env:
       TIMEZONE: Asia/Bangkok
+      TZ: Asia/Bangkok
       RANDOM_STATE: "42"
       FIREBASE_RTD_URL: ${{ secrets.FIREBASE_RTD_URL }}
       FIREBASE_AUTH: ${{ secrets.FIREBASE_AUTH }}
