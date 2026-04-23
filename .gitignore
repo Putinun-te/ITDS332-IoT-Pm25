@@ -1,0 +1,17 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Secrets / local env
+.env
+.env.*
+!.env.automation.example
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/

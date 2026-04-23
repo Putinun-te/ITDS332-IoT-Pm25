@@ -1,0 +1,97 @@
+{
+  "created_at": "2026-04-21T21:51:11",
+  "feature_columns": [
+    "day_of_week",
+    "month",
+    "day_of_year",
+    "week_of_year",
+    "is_weekend",
+    "month_sin",
+    "month_cos",
+    "dow_sin",
+    "dow_cos",
+    "pm25_target_lag1",
+    "pm25_target_lag7",
+    "pm25_target_roll7",
+    "pm10_target_lag1",
+    "pm10_target_lag7",
+    "pm10_target_roll7",
+    "o3_lag1",
+    "o3_lag7",
+    "o3_roll7",
+    "no2_lag1",
+    "no2_lag7",
+    "no2_roll7",
+    "so2_lag1",
+    "so2_lag7",
+    "so2_roll7",
+    "co_lag1",
+    "co_lag7",
+    "co_roll7",
+    "temperature_lag1",
+    "temperature_lag7",
+    "temperature_roll7",
+    "humidity_lag1",
+    "humidity_lag7",
+    "humidity_roll7",
+    "active_stations_lag1",
+    "active_stations_lag7",
+    "active_stations_roll7",
+    "om_pm2_5_lag1",
+    "om_pm2_5_lag7",
+    "om_pm2_5_roll7",
+    "om_pm10_lag1",
+    "om_pm10_lag7",
+    "om_pm10_roll7",
+    "om_no2_lag1",
+    "om_no2_lag7",
+    "om_no2_roll7",
+    "om_o3_lag1",
+    "om_o3_lag7",
+    "om_o3_roll7"
+  ],
+  "training_rows": 1896,
+  "train_period": [
+    "2016-07-30",
+    "2020-05-14"
+  ],
+  "validation_period": [
+    "2020-05-15",
+    "2021-01-11"
+  ],
+  "test_period": [
+    "2021-01-12",
+    "2023-12-31"
+  ],
+  "metrics": [
+    {
+      "target": "pm25",
+      "split": "validation",
+      "MAE": 5.482408777563116,
+      "RMSE": 7.2954725720011,
+      "R2": 0.9202809895968258
+    },
+    {
+      "target": "pm10",
+      "split": "validation",
+      "MAE": 5.443565345444274,
+      "RMSE": 7.013801288569154,
+      "R2": 0.743985876270645
+    },
+    {
+      "target": "pm25",
+      "split": "test",
+      "MAE": 37.48639410737834,
+      "RMSE": 45.24542175077433,
+      "R2": 0.028437652073013853
+    },
+    {
+      "target": "pm10",
+      "split": "test",
+      "MAE": 11.450474303960682,
+      "RMSE": 15.0991933415797,
+      "R2": 0.5436325110115324
+    }
+  ],
+  "external_dataset": "Open-Meteo Air Quality API (Bangkok)"
+}

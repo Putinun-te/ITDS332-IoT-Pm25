@@ -1,0 +1,210 @@
+[
+  {
+    "id": "f1a0c93b1e71c0a1",
+    "type": "tab",
+    "label": "PM Forecast Dashboard",
+    "disabled": false,
+    "info": "Load forecast from Firebase and show next-day PM2.5/PM10 on dashboard"
+  },
+  {
+    "id": "6c7a5f6f6f3c1b22",
+    "type": "ui_tab",
+    "name": "Air Quality",
+    "icon": "dashboard",
+    "disabled": false,
+    "hidden": false
+  },
+  {
+    "id": "66f6d9cf3f6f7e10",
+    "type": "ui_group",
+    "name": "Next Day Forecast",
+    "tab": "6c7a5f6f6f3c1b22",
+    "order": 1,
+    "disp": true,
+    "width": "12",
+    "collapse": false,
+    "className": ""
+  },
+  {
+    "id": "1f4b2f1b9b3f03a9",
+    "type": "inject",
+    "z": "f1a0c93b1e71c0a1",
+    "name": "Refresh every 10 min",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "600",
+    "crontab": "",
+    "once": true,
+    "onceDelay": "2",
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "x": 180,
+    "y": 140,
+    "wires": [
+      [
+        "73d71d2f9f0ac3e5"
+      ]
+    ]
+  },
+  {
+    "id": "73d71d2f9f0ac3e5",
+    "type": "http request",
+    "z": "f1a0c93b1e71c0a1",
+    "name": "GET Firebase next_day",
+    "method": "GET",
+    "ret": "obj",
+    "paytoqs": "ignore",
+    "url": "https://itds332-pm25-default-rtdb.asia-southeast1.firebasedatabase.app/predictions/next_day.json",
+    "tls": "",
+    "persist": false,
+    "proxy": "",
+    "authType": "",
+    "x": 440,
+    "y": 140,
+    "wires": [
+      [
+        "0ab6fb4a8a30d1c8"
+      ]
+    ]
+  },
+  {
+    "id": "0ab6fb4a8a30d1c8",
+    "type": "function",
+    "z": "f1a0c93b1e71c0a1",
+    "name": "Validate + map",
+    "func": "const d = msg.payload || {};\nif (!d.forecast_date) {\n    node.status({fill:\"red\", shape:\"ring\", text:\"no forecast data\"});\n    return null;\n}\n\nconst pm25 = Number(d.pm25_forecast ?? NaN);\nconst pm10 = Number(d.pm10_forecast ?? NaN);\nconst stale = Boolean(d.is_stale_vs_today);\n\nconst text = `Forecast ${d.forecast_date} | PM2.5 ${pm25.toFixed(2)} | PM10 ${pm10.toFixed(2)}`;\nconst staleText = stale ? \"STALE: data is behind today\" : \"OK: data is current\";\n\nnode.status({fill: stale ? \"yellow\" : \"green\", shape:\"dot\", text: staleText});\n\nreturn [\n  {payload: text},\n  {payload: pm25},\n  {payload: pm10},\n  {payload: staleText},\n  {payload: {\n      latest_history_date: d.latest_history_date || null,\n      forecast_date: d.forecast_date,\n      pm25_forecast: pm25,\n      pm10_forecast: pm10,\n      is_stale_vs_today: stale\n  }}\n];",
+    "outputs": 5,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 690,
+    "y": 140,
+    "wires": [
+      [
+        "42eb8f3b5ea1a9d2"
+      ],
+      [
+        "35f9e5d27dd4f189"
+      ],
+      [
+        "7b0f74d95f3f46b1"
+      ],
+      [
+        "957b39ba8f1e4de2"
+      ],
+      [
+        "abf6a10f79ad3d1f"
+      ]
+    ]
+  },
+  {
+    "id": "42eb8f3b5ea1a9d2",
+    "type": "ui_text",
+    "z": "f1a0c93b1e71c0a1",
+    "group": "66f6d9cf3f6f7e10",
+    "order": 1,
+    "width": "12",
+    "height": "1",
+    "name": "Forecast text",
+    "label": "Next-day forecast",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "className": "",
+    "x": 960,
+    "y": 80,
+    "wires": []
+  },
+  {
+    "id": "35f9e5d27dd4f189",
+    "type": "ui_gauge",
+    "z": "f1a0c93b1e71c0a1",
+    "name": "PM2.5 gauge",
+    "group": "66f6d9cf3f6f7e10",
+    "order": 2,
+    "width": "6",
+    "height": "4",
+    "gtype": "gage",
+    "title": "PM2.5 forecast",
+    "label": "ug/m3",
+    "format": "{{value}}",
+    "min": 0,
+    "max": "200",
+    "colors": [
+      "#00b500",
+      "#e6e600",
+      "#ca3838"
+    ],
+    "seg1": "37.5",
+    "seg2": "75",
+    "className": "",
+    "x": 950,
+    "y": 140,
+    "wires": []
+  },
+  {
+    "id": "7b0f74d95f3f46b1",
+    "type": "ui_gauge",
+    "z": "f1a0c93b1e71c0a1",
+    "name": "PM10 gauge",
+    "group": "66f6d9cf3f6f7e10",
+    "order": 3,
+    "width": "6",
+    "height": "4",
+    "gtype": "gage",
+    "title": "PM10 forecast",
+    "label": "ug/m3",
+    "format": "{{value}}",
+    "min": 0,
+    "max": "300",
+    "colors": [
+      "#00b500",
+      "#e6e600",
+      "#ca3838"
+    ],
+    "seg1": "50",
+    "seg2": "100",
+    "className": "",
+    "x": 950,
+    "y": 200,
+    "wires": []
+  },
+  {
+    "id": "957b39ba8f1e4de2",
+    "type": "ui_text",
+    "z": "f1a0c93b1e71c0a1",
+    "group": "66f6d9cf3f6f7e10",
+    "order": 4,
+    "width": "12",
+    "height": "1",
+    "name": "Stale status",
+    "label": "Data freshness",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "className": "",
+    "x": 950,
+    "y": 260,
+    "wires": []
+  },
+  {
+    "id": "abf6a10f79ad3d1f",
+    "type": "debug",
+    "z": "f1a0c93b1e71c0a1",
+    "name": "debug forecast obj",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 970,
+    "y": 320,
+    "wires": []
+  }
+]

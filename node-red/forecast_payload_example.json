@@ -1,0 +1,8 @@
+{
+  "generated_at": "2026-04-21T10:00:00",
+  "latest_history_date": "2026-04-20",
+  "forecast_date": "2026-04-21",
+  "pm25_forecast": 32.45,
+  "pm10_forecast": 48.12,
+  "is_stale_vs_today": false
+}

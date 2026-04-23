@@ -1,0 +1,74 @@
+name: pm2.5 forcast
+
+on:
+  schedule:
+    - cron: "0 0 * * *" # 00:00 UTC = 07:00 Asia/Bangkok
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pm2-5-forcast
+  cancel-in-progress: false
+
+jobs:
+  run-notebook:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      TIMEZONE: Asia/Bangkok
+      RANDOM_STATE: "42"
+      FIREBASE_RTD_URL: ${{ secrets.FIREBASE_RTD_URL }}
+      FIREBASE_AUTH: ${{ secrets.FIREBASE_AUTH }}
+      FIREBASE_PATH: /AirQuality/Log
+      FIREBASE_PATH_CANDIDATES: /AirQuality/Log,/air_quality_readings,/AirQuality,/
+      USE_LOCAL_FALLBACK: "true"
+      LOCAL_FALLBACK_PATH: data/openmeteo_bangkok_hourly_2023_2026.csv
+      MERGE_LOCAL_WITH_FIREBASE: "true"
+      MODELS_DIR: models
+      PUSH_FORECAST_TO_FIREBASE: "true"
+      FIREBASE_FORECAST_PATH: /predictions/next_day.json
+      FIREBASE_PREVIOUS_DAY_PATH: /predictions/previous_day.json
+      FIREBASE_HISTORY_BASE_PATH: /predictions/history
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Validate required secrets
+        run: |
+          if [ -z "${FIREBASE_RTD_URL}" ]; then
+            echo "::error::Missing FIREBASE_RTD_URL secret"
+            exit 1
+          fi
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pandas numpy scikit-learn requests joblib matplotlib jupyter nbconvert nbclient ipykernel
+
+      - name: Execute latest notebook
+        run: |
+          jupyter nbconvert \
+            --to notebook \
+            --execute train_pm_colab_firebase.ipynb \
+            --output train_pm_colab_firebase.executed.ipynb \
+            --ExecutePreprocessor.timeout=1800 \
+            --ExecutePreprocessor.kernel_name=python3
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: forecast-run-artifacts
+          path: |
+            train_pm_colab_firebase.executed.ipynb
+            models/forecast_next_day.json
+            models/training_metadata_colab_firebase.json
+          if-no-files-found: warn
