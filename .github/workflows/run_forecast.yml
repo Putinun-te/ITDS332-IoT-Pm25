@@ -72,7 +72,7 @@ jobs:
 
       - name: Set action-synced Bangkok timestamp
         run: |
-          python -c "from datetime import datetime; from zoneinfo import ZoneInfo; print('GENERATED_AT=' + datetime.now(ZoneInfo('Asia/Bangkok')).isoformat(timespec='seconds'))" >> "$GITHUB_ENV"
+          python -c "from datetime import datetime; from zoneinfo import ZoneInfo; print('GENERATED_AT=' + datetime.now(ZoneInfo('Asia/Bangkok')).strftime('%Y-%m-%dT%H:%M:%S%z'))" >> "$GITHUB_ENV"
           echo "GENERATED_BY_RUN_ID=${GITHUB_RUN_ID}" >> "$GITHUB_ENV"
 
       - name: Execute latest notebook
