@@ -52,7 +52,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pandas numpy scikit-learn requests joblib matplotlib jupyter nbconvert nbclient ipykernel
+          pip install -r requirements.txt
 
       - name: Execute latest notebook
         run: |

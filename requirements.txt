@@ -1,0 +1,10 @@
+pandas
+numpy
+scikit-learn
+requests
+joblib
+matplotlib
+jupyter
+nbconvert
+nbclient
+ipykernel
