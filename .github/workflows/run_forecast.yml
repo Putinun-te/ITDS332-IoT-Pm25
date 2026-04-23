@@ -23,7 +23,7 @@ jobs:
       TIMEZONE: Asia/Bangkok
       TZ: Asia/Bangkok
       RANDOM_STATE: "42"
-      FIREBASE_RTD_URL: ${{ secrets.FIREBASE_RTD_URL }}
+      FIREBASE_RTD_URL: ${{ secrets.FIREBASE_RTD_URL || 'https://itds332-pm25-default-rtdb.asia-southeast1.firebasedatabase.app' }}
       FIREBASE_AUTH: ${{ secrets.FIREBASE_AUTH }}
       FIREBASE_PATH: /AirQuality/Log
       FIREBASE_PATH_CANDIDATES: /AirQuality/Log,/air_quality_readings,/AirQuality,/
