@@ -1,0 +1,9 @@
+{
+  "generated_at": "2026-04-24T02:14:41+0700",
+  "generated_by_run_id": "24853920344",
+  "latest_history_date": "2026-04-23",
+  "forecast_date": "2026-04-24",
+  "pm25_forecast": 30.15,
+  "pm10_forecast": 33.42,
+  "is_stale_vs_today": true
+}

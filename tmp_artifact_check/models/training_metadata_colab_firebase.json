@@ -1,0 +1,62 @@
+{
+  "created_at": "2026-04-24T02:14:41+0700",
+  "timezone": "Asia/Bangkok",
+  "generated_by_run_id": "24853920344",
+  "training_cutoff_date": "2026-04-22",
+  "feature_columns": [
+    "day_of_week",
+    "month",
+    "day_of_year",
+    "week_of_year",
+    "is_weekend",
+    "month_sin",
+    "month_cos",
+    "dow_sin",
+    "dow_cos",
+    "pm25_target_lag1",
+    "pm25_target_lag7",
+    "pm25_target_roll7",
+    "pm10_target_lag1",
+    "pm10_target_lag7",
+    "pm10_target_roll7",
+    "temperature_lag1",
+    "temperature_lag7",
+    "temperature_roll7",
+    "humidity_lag1",
+    "humidity_lag7",
+    "humidity_roll7",
+    "active_samples_lag1",
+    "active_samples_lag7",
+    "active_samples_roll7",
+    "om_pm2_5_lag1",
+    "om_pm2_5_lag7",
+    "om_pm2_5_roll7",
+    "om_pm10_lag1",
+    "om_pm10_lag7",
+    "om_pm10_roll7",
+    "om_no2_lag1",
+    "om_no2_lag7",
+    "om_no2_roll7",
+    "om_o3_lag1",
+    "om_o3_lag7",
+    "om_o3_roll7"
+  ],
+  "rows_daily_total": 3,
+  "rows_model_subset": 2,
+  "metrics": [
+    {
+      "target": "pm25",
+      "split": "train_only",
+      "MAE": 2.1928463531893794,
+      "RMSE": 2.1928463531893794,
+      "R2": 0.822939928434836
+    },
+    {
+      "target": "pm10",
+      "split": "train_only",
+      "MAE": 2.4280289898401275,
+      "RMSE": 2.4280289898401275,
+      "R2": 0.8229399284348342
+    }
+  ]
+}
