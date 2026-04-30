@@ -10,7 +10,7 @@ __pycache__/
 .env
 .env.*
 !.env.automation.example
-
+PRESENTATION_OUTLINE_TH.md
 # OS/editor
 .DS_Store
 Thumbs.db

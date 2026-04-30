@@ -84,6 +84,30 @@ jobs:
             --ExecutePreprocessor.timeout=1800 \
             --ExecutePreprocessor.kernel_name=python3
 
+      - name: Display training metadata metrics
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          path = Path('models/training_metadata_colab_firebase.json')
+          if not path.exists():
+              raise FileNotFoundError(f'Metadata file not found: {path}')
+
+          data = json.loads(path.read_text(encoding='utf-8'))
+          metrics = data.get('metrics', [])
+          if not metrics:
+              print('No metrics found in training_metadata_colab_firebase.json')
+          else:
+              print('=== TRAINING METRICS ===')
+              for row in metrics:
+                  print(
+                      f"{row.get('target',''):>5s} | {row.get('split',''):>10s} | "
+                      f"MAE={row.get('MAE', 0):.4f} | MSE={row.get('MSE', 0):.4f} | "
+                      f"RMSE={row.get('RMSE', 0):.4f} | R2={row.get('R2', 0):.4f}"
+                  )
+          PY
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
